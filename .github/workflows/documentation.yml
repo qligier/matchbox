@@ -27,8 +27,15 @@ jobs:
       - name: Build static documentation and deploy
         run: mkdocs gh-deploy --force
 
+      - name: Install Java 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "adopt"
+          cache: "maven"
+
       - name: Build Javadoc
-        run: mvn javadoc:aggregate -f pom.xml
+        run: mvn --batch-mode --no-transfer-progress javadoc:aggregate -f pom.xml
 
       - name: Publish Javadoc
         uses: JamesIves/github-pages-deploy-action@v4.4.1
