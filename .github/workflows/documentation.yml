@@ -1,11 +1,10 @@
 name: Publish documentation
 on:
   workflow_dispatch: # On manual trigger
-  push:              # On tag creation
-    tags:
+  push:
+    tags:            # On tag creation
       - "*"
-  push:              # On push in the main branch
-    branches:
+    branches:        # On push in the main branch
       - main
 jobs:
   build:
