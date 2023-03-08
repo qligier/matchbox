@@ -1,0 +1,39 @@
+name: Publish documentation
+on:
+  workflow_dispatch: # On manual trigger
+  push:              # On tag creation
+    tags:
+      - "*"
+  push:              # On push in the main branch
+    branches:
+      - main
+jobs:
+  build:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@v3
+
+      - name: Install Python 3
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
+
+      - name: Install mkdocs
+        run: pip install -r requirements.txt
+
+      - name: Build static documentation and deploy
+        run: mkdocs gh-deploy --force
+
+      - name: Build Javadoc
+        run: mvn javadoc:aggregate -f pom.xml
+
+      - name: Publish Javadoc
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages # The destination branch.
+          folder: target/site/apidocs # The source folder.
+          target-folder: apidocs # The destination folder.
