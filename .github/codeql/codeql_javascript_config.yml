@@ -1,0 +1,3 @@
+name: "CodeQL config for JavaScript"
+paths-ignore:
+  - matchbox-server/src/main/resources/static
