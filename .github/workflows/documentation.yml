@@ -2,7 +2,7 @@ name: Publish documentation
 on:
   workflow_dispatch: # On manual trigger
   push:
-    tags:            # On tag creation
+    tags:            # On tag creation
       - "*"
     branches:        # On push in the main branch
       - main
@@ -26,9 +26,11 @@ jobs:
 
       - name: Build static documentation and deploy
         run: mkdocs gh-deploy --force
+        # https://www.mkdocs.org/user-guide/deploying-your-docs/#github-pages
 
-      - name: Install Java 17
+      - name: Setup Java 17
         uses: actions/setup-java@v3
+        # https://github.com/actions/setup-java#usage
         with:
           java-version: "17"
           distribution: "adopt"
@@ -39,7 +41,8 @@ jobs:
 
       - name: Publish Javadoc
         uses: JamesIves/github-pages-deploy-action@v4.4.1
+        # https://github.com/JamesIves/github-pages-deploy-action#configuration-
         with:
-          branch: gh-pages # The destination branch.
+          branch: gh-pages            # The destination branch.
           folder: target/site/apidocs # The source folder.
-          target-folder: apidocs # The destination folder.
+          target-folder: apidocs      # The destination folder.
